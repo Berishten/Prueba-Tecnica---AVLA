@@ -11,8 +11,6 @@ import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
 import com.pabloescobar.pruebatecnica.services.UserService;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -30,16 +28,21 @@ public class UserController {
 
     // obtener user por uuid
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") String id) throws Exception {
-        User user = userService.getUser(UUID.fromString(id));
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<User> getUser(@PathVariable("id") Long id) throws Exception {
+        try {
+            User user = userService.getUser(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            throw new Exception("User not found");
+        }
     }
 
     // actualizar user por uuid
     @PutMapping("/{id}")
-    public ResponseEntity<CreateUpdateUserResponseDTO> updateUser(@PathVariable("id") UUID id, @RequestBody @Valid UserDTO userDto)
+    public ResponseEntity<CreateUpdateUserResponseDTO> updateUser(@PathVariable("id") Long id,
+            @RequestBody @Valid UserDTO userDto)
             throws Exception {
-                CreateUpdateUserResponseDTO userResponse = userService.updateUser(id, userDto);
+        CreateUpdateUserResponseDTO userResponse = userService.updateUser(id, userDto);
 
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }

@@ -10,7 +10,6 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -32,20 +31,20 @@ public class UserService {
     }
 
     // obtener user
-    public User getUser(UUID id) throws ChangeSetPersister.NotFoundException {
-        User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
-        return user;
-    }
+    public User getUser(Long id) throws ChangeSetPersister.NotFoundException {
+            User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+            return user;
+        }
 
     // actualizar user
-    public CreateUpdateUserResponseDTO updateUser(UUID id, UserDTO updateUserRequestDTO)
+    public CreateUpdateUserResponseDTO updateUser(Long id, UserDTO updateUserRequestDTO)
             throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
         return userMapper.userToCreateUpdateUserResponseDTO(userRepository.save(user));
     }
 
     // eliminar user
-    public void deleteUser(UUID id) throws ChangeSetPersister.NotFoundException {
+    public void deleteUser(Long id) throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
         userRepository.delete(user);
     }

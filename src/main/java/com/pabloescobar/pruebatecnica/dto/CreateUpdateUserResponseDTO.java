@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CreateUpdateUserResponseDTO {
-    private UUID id;
+    private Long id;
     private Date created;
     private Date modified;
 }
