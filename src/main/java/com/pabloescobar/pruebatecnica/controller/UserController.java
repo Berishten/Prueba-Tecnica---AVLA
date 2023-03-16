@@ -13,10 +13,13 @@ import com.pabloescobar.pruebatecnica.Utils.MessageHandler;
 import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
 import com.pabloescobar.pruebatecnica.services.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -43,8 +46,7 @@ public class UserController {
     public ResponseEntity<Object> updateUser(@PathVariable("id") Long id,
             @RequestBody @Valid UserDTO userDto) throws Exception {
         try {
-            userService.updateUser(id, userDto);
-            return new ResponseEntity<>(new MessageHandler(Messages.USER_UPDATED), HttpStatus.OK);
+            return new ResponseEntity<>(userService.updateUser(id, userDto), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(new MessageHandler(Messages.USER_NOT_FOUND), HttpStatus.NOT_FOUND);
         }

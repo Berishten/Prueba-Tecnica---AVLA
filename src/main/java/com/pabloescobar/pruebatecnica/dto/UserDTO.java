@@ -2,10 +2,6 @@ package com.pabloescobar.pruebatecnica.dto;
 
 import java.util.List;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-
 import com.pabloescobar.pruebatecnica.models.Phone;
 
 import lombok.AllArgsConstructor;

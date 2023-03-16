@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
