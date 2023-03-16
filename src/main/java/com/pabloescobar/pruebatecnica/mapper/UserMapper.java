@@ -2,6 +2,7 @@ package com.pabloescobar.pruebatecnica.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import com.pabloescobar.pruebatecnica.dto.UserDTO;
@@ -20,5 +21,8 @@ public interface UserMapper {
 
     @Mapping(target = "created", source = "created", dateFormat = "dd-MM-yyyy HH:mm:ss")
     CreateUpdateUserResponseDTO userToCreateUpdateUserResponseDTO(User user);
+
+    // updateUserFromUserDTO
+    void updateUserFromUserDTO(UserDTO userDTO, @MappingTarget User user);
 
 }

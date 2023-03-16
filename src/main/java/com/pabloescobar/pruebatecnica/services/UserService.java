@@ -32,15 +32,18 @@ public class UserService {
 
     // obtener user
     public User getUser(Long id) throws ChangeSetPersister.NotFoundException {
-            User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
-            return user;
-        }
+        User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        return user;
+    }
 
     // actualizar user
     public CreateUpdateUserResponseDTO updateUser(Long id, UserDTO updateUserRequestDTO)
             throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
-        return userMapper.userToCreateUpdateUserResponseDTO(userRepository.save(user));
+        userMapper.updateUserFromUserDTO(updateUserRequestDTO, user);
+        user.getPhones().forEach(phone -> phone.setUser(user));
+        userRepository.save(user);
+        return userMapper.userToUserResponseDTO(user);
     }
 
     // eliminar user

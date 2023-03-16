@@ -13,19 +13,16 @@ import java.util.UUID;
 @Entity
 @Table(name = "phones")
 public class Phone {
+    @JsonIgnore
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String number;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
-
-    public Phone(String number) {
-        this.number = number;
-    }
 }
