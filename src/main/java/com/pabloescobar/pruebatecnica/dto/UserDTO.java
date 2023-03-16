@@ -25,9 +25,4 @@ public class UserDTO {
     private String password;
 
     private List<Phone> phones;
-
-    // get name
-    public String getName() {
-        return name;
-    }
 }
