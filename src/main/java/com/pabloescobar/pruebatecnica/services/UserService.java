@@ -2,14 +2,13 @@ package com.pabloescobar.pruebatecnica.services;
 
 import com.pabloescobar.pruebatecnica.mapper.UserMapper;
 import com.pabloescobar.pruebatecnica.dto.UserDTO;
-import com.pabloescobar.pruebatecnica.dto.UserResponseDTO;
+import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
 import com.pabloescobar.pruebatecnica.models.User;
 import com.pabloescobar.pruebatecnica.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,20 +22,12 @@ public class UserService {
     private UserMapper userMapper;
 
     // crear user
-    public UserResponseDTO createUser(UserDTO userDTO) {
-        User user = User.builder()
-            // .id(UUID.randomUUID())
-            .name(userDTO.getName())
-            .email(userDTO.getEmail())
-            .password(userDTO.getPassword())
-            .phones(userDTO.getPhones())
-            // .created(new Date())
-            // .modified(new Date())
-        .build();
+    public CreateUpdateUserResponseDTO createUser(UserDTO userDTO) {
+        User user = userMapper.userDTOToUser(userDTO);
+        user.getPhones().forEach(phone -> phone.setUser(user));
         userRepository.save(user);
 
-        // Mapping
-        UserResponseDTO createUserResponseDTO = userMapper.userToUserResponseDTO(user);
+        CreateUpdateUserResponseDTO createUserResponseDTO = userMapper.userToUserResponseDTO(user);
         return createUserResponseDTO;
     }
 
@@ -47,14 +38,10 @@ public class UserService {
     }
 
     // actualizar user
-    public User updateUser(UUID id, UserDTO updateUserRequestDTO)
+    public CreateUpdateUserResponseDTO updateUser(UUID id, UserDTO updateUserRequestDTO)
             throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
-        user.setName(updateUserRequestDTO.getName());
-        user.setEmail(updateUserRequestDTO.getEmail());
-        user.setPassword(updateUserRequestDTO.getPassword());
-        user.setPhones(updateUserRequestDTO.getPhones());
-        return userRepository.save(user);
+        return userMapper.userToCreateUpdateUserResponseDTO(userRepository.save(user));
     }
 
     // eliminar user

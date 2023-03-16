@@ -21,7 +21,7 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID user_id;
+    private UUID id;
 
     @Column(name = "name")
     private String name;
@@ -32,26 +32,14 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    // @JoinColumn(name = "user_id")
     private List<Phone> phones;
 
     public void setPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    public List<Phone> getPhones() {
-        if (phones == null) {
-            phones = new ArrayList<>();
-        }
-        return phones;
-    }
-
-    public void setPhones(List<Phone> phones) {
-        this.phones = phones;
-    }
-
-    // metodos de auditoria, created, modified
     @Column(name = "created")
     private Date created;
 

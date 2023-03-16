@@ -12,9 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResponseDTO {
+public class CreateUpdateUserResponseDTO {
     private UUID id;
     private Date created;
     private Date modified;
-    private String token;
 }
