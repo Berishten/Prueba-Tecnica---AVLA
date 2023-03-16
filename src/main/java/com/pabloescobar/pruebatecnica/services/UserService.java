@@ -2,6 +2,7 @@ package com.pabloescobar.pruebatecnica.services;
 
 import com.pabloescobar.pruebatecnica.mapper.UserMapper;
 import com.pabloescobar.pruebatecnica.dto.UserDTO;
+import com.pabloescobar.pruebatecnica.exceptions.EmailAlreadyExistsException;
 import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
 import com.pabloescobar.pruebatecnica.models.User;
 import com.pabloescobar.pruebatecnica.repository.UserRepository;
@@ -20,8 +21,10 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    // crear user
     public CreateUpdateUserResponseDTO createUser(UserDTO userDTO) {
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            throw new EmailAlreadyExistsException("El correo ya se encuentra registrado.");
+        }
         User user = userMapper.userDTOToUser(userDTO);
         user.getPhones().forEach(phone -> phone.setUser(user));
         userRepository.save(user);
@@ -30,13 +33,11 @@ public class UserService {
         return createUserResponseDTO;
     }
 
-    // obtener user
     public User getUser(Long id) throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
         return user;
     }
 
-    // actualizar user
     public CreateUpdateUserResponseDTO updateUser(Long id, UserDTO updateUserRequestDTO)
             throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
@@ -46,13 +47,11 @@ public class UserService {
         return userMapper.userToUserResponseDTO(user);
     }
 
-    // eliminar user
     public void deleteUser(Long id) throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
         userRepository.delete(user);
     }
 
-    // get all users
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
