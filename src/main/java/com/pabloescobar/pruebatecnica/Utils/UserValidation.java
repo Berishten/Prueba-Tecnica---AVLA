@@ -1,4 +1,4 @@
-package com.pabloescobar.pruebatecnica.Utils;
+package com.pabloescobar.pruebatecnica.utils;
 
 public class UserValidation {
     public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$";

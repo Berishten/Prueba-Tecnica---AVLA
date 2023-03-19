@@ -1,4 +1,4 @@
-package com.pabloescobar.pruebatecnica.Utils;
+package com.pabloescobar.pruebatecnica.utils;
 
 import org.springframework.stereotype.Component;
 

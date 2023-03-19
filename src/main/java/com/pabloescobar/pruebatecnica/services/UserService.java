@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import com.pabloescobar.pruebatecnica.DAO.User;
 import com.pabloescobar.pruebatecnica.DTO.user.CreateUpdateUserResponseDTO;
 import com.pabloescobar.pruebatecnica.DTO.user.UserDTO;
-import com.pabloescobar.pruebatecnica.Utils.JwtUtil;
-import com.pabloescobar.pruebatecnica.Utils.UserValidation;
 import com.pabloescobar.pruebatecnica.enums.Messages;
 import com.pabloescobar.pruebatecnica.mapper.UserMapper;
 import com.pabloescobar.pruebatecnica.repository.UserRepository;
+import com.pabloescobar.pruebatecnica.utils.JwtUtil;
+import com.pabloescobar.pruebatecnica.utils.UserValidation;
 
 @Service
 public class UserService {
