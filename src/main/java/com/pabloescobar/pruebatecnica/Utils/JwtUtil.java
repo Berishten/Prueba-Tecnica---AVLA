@@ -3,18 +3,13 @@ package com.pabloescobar.pruebatecnica.Utils;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-import java.security.Key;
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 @Component
 public class JwtUtil {

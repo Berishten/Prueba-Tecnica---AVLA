@@ -12,12 +12,9 @@ import com.pabloescobar.pruebatecnica.dto.UserDTO;
 import com.pabloescobar.pruebatecnica.enums.Messages;
 import com.pabloescobar.pruebatecnica.exceptions.EmailAlreadyExistsException;
 import com.pabloescobar.pruebatecnica.models.User;
-import com.pabloescobar.pruebatecnica.Utils.JwtUtil;
 import com.pabloescobar.pruebatecnica.Utils.MessageHandler;
 import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
 import com.pabloescobar.pruebatecnica.services.UserService;
-
-import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
 
