@@ -3,6 +3,7 @@ package com.pabloescobar.pruebatecnica.services;
 import com.pabloescobar.pruebatecnica.mapper.UserMapper;
 import com.pabloescobar.pruebatecnica.dto.UserDTO;
 import com.pabloescobar.pruebatecnica.exceptions.EmailAlreadyExistsException;
+import com.pabloescobar.pruebatecnica.Utils.JwtUtil;
 import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
 import com.pabloescobar.pruebatecnica.models.User;
 import com.pabloescobar.pruebatecnica.repository.UserRepository;
@@ -21,12 +22,21 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
+
     public CreateUpdateUserResponseDTO createUser(UserDTO userDTO) {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("El correo ya se encuentra registrado.");
         }
         User user = userMapper.userDTOToUser(userDTO);
         user.getPhones().forEach(phone -> phone.setUser(user));
+        
+        // Generar token
+        String token = jwtUtil.generateToken(user.getName(), user.getEmail());
+        user.setToken(token);
+
         userRepository.save(user);
 
         CreateUpdateUserResponseDTO createUserResponseDTO = userMapper.userToUserResponseDTO(user);

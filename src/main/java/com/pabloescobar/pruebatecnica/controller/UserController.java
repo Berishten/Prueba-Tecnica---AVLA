@@ -12,6 +12,7 @@ import com.pabloescobar.pruebatecnica.dto.UserDTO;
 import com.pabloescobar.pruebatecnica.enums.Messages;
 import com.pabloescobar.pruebatecnica.exceptions.EmailAlreadyExistsException;
 import com.pabloescobar.pruebatecnica.models.User;
+import com.pabloescobar.pruebatecnica.Utils.JwtUtil;
 import com.pabloescobar.pruebatecnica.Utils.MessageHandler;
 import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
 import com.pabloescobar.pruebatecnica.services.UserService;
@@ -22,7 +23,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
-@Slf4j
 public class UserController {
     final String REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$";
     final String REGEX_EMAIL = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -34,6 +34,7 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO userDto) {
+
         if (!userDto.getEmail().matches(REGEX_EMAIL)) {
             return new ResponseEntity<>(new MessageHandler(Messages.EMAIL_INVALID), HttpStatus.BAD_REQUEST);
         }

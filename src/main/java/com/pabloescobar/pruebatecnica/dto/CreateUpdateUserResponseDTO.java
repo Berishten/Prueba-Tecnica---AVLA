@@ -16,4 +16,5 @@ public class CreateUpdateUserResponseDTO {
     private Long id;
     private Date created;
     private Date modified;
+    private String token;
 }

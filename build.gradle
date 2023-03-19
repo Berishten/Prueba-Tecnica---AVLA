@@ -15,28 +15,34 @@ repositories {
 }
 
 dependencies {
+	// springframework
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// Utils
 	runtimeOnly 'com.h2database:h2'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	// https://mvnrepository.com/artifact/junit/junit
-	testImplementation group: 'junit', name: 'junit', version: '4.4'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+	implementation group: 'org.slf4j', name: 'integration', version: '1.7.36'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	// https://mvnrepository.com/artifact/org.mindrot/jbcrypt
-	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	// actuator
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	// mapstruct
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
-	// opendoc
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
-	// log
-	implementation group: 'org.slf4j', name: 'integration', version: '1.7.36'
+	// JWT
+	// Required: JJWT API
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 
+    // Required: JJWT Implementation
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+
+    // Required: Jackson JSON Processor for JSON serialization/deserialization
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2' // or 'io.jsonwebtoken:jjwt-gson:0.11.2''
+	// Testinb
+	testImplementation group: 'junit', name: 'junit', version: '4.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

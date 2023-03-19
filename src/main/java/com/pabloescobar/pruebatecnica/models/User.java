@@ -25,12 +25,16 @@ public class User {
 
     @Column(name = "name")
     private String name;
-
+    
     @Column(name = "email")
     private String email;
-
+    
     @Column(name = "password")
     private String password;
+
+    @JsonIgnore
+    @Column(name = "token")
+    private String token;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phones;
