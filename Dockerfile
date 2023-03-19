@@ -1,4 +1,10 @@
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM openjdk:11-jdk-slim
 WORKDIR /app
-COPY build/libs/*.jar app.jar
-CMD ["java", "-jar", "app.jar"]
+COPY src ./src
+COPY build.gradle settings.gradle gradlew ./
+COPY gradle ./gradle
+RUN ./gradlew clean
+RUN ./gradlew build
+EXPOSE 8080
+
+CMD ["java", "-jar", "/app/build/libs/pablo-escobar-avla.jar"]
