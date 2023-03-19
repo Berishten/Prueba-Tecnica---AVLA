@@ -1,4 +1,4 @@
-package com.pabloescobar.pruebatecnica.models;
+package com.pabloescobar.pruebatecnica.DAO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

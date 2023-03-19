@@ -1,8 +1,8 @@
-package com.pabloescobar.pruebatecnica.dto;
+package com.pabloescobar.pruebatecnica.DTO.user;
 
 import java.util.List;
 
-import com.pabloescobar.pruebatecnica.models.Phone;
+import com.pabloescobar.pruebatecnica.DTO.phone.PhoneDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +20,5 @@ public class UserDTO {
 
     private String password;
 
-    private List<Phone> phones;
+    private List<PhoneDTO> phones;
 }

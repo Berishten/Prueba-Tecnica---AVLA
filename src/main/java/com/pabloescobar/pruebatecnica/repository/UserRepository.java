@@ -1,6 +1,6 @@
 package com.pabloescobar.pruebatecnica.repository;
 
-import com.pabloescobar.pruebatecnica.models.User;
+import com.pabloescobar.pruebatecnica.DAO.User;
 
 import java.util.Optional;
 

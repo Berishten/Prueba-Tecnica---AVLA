@@ -1,17 +1,19 @@
 package com.pabloescobar.pruebatecnica.services;
 
-import com.pabloescobar.pruebatecnica.mapper.UserMapper;
-import com.pabloescobar.pruebatecnica.dto.UserDTO;
-import com.pabloescobar.pruebatecnica.exceptions.EmailAlreadyExistsException;
-import com.pabloescobar.pruebatecnica.Utils.JwtUtil;
-import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
-import com.pabloescobar.pruebatecnica.models.User;
-import com.pabloescobar.pruebatecnica.repository.UserRepository;
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.pabloescobar.pruebatecnica.DAO.User;
+import com.pabloescobar.pruebatecnica.DTO.user.CreateUpdateUserResponseDTO;
+import com.pabloescobar.pruebatecnica.DTO.user.UserDTO;
+import com.pabloescobar.pruebatecnica.Utils.JwtUtil;
+import com.pabloescobar.pruebatecnica.Utils.UserValidation;
+import com.pabloescobar.pruebatecnica.enums.Messages;
+import com.pabloescobar.pruebatecnica.mapper.UserMapper;
+import com.pabloescobar.pruebatecnica.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -25,15 +27,15 @@ public class UserService {
     @Autowired
     private JwtUtil jwtUtil;
 
-
-    public CreateUpdateUserResponseDTO createUser(UserDTO userDTO) {
+    public CreateUpdateUserResponseDTO createUser(UserDTO userDTO) throws ValidationException {
+        validateUser(userDTO);
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
-            throw new EmailAlreadyExistsException("El correo ya se encuentra registrado.");
+            throw new ValidationException(Messages.EMAIL_ALREADY_EXISTS);
         }
+
         User user = userMapper.userDTOToUser(userDTO);
         user.getPhones().forEach(phone -> phone.setUser(user));
-        
-        // Generar token
+
         String token = jwtUtil.generateToken(user.getName(), user.getEmail());
         user.setToken(token);
 
@@ -48,9 +50,25 @@ public class UserService {
         return user;
     }
 
+    private void validateUser(UserDTO userDTO) {
+        // Validacion del formato del correo y la contraseña
+        if (!UserValidation.isValidEmail(userDTO.getEmail())) {
+            throw new ValidationException(Messages.EMAIL_INVALID);
+        }
+        if (!UserValidation.isValidPassword(userDTO.getPassword())) {
+            throw new ValidationException(Messages.PASSWORD_INVALID);
+        }
+    }
+
     public CreateUpdateUserResponseDTO updateUser(Long id, UserDTO updateUserRequestDTO)
-            throws ChangeSetPersister.NotFoundException {
+            throws ChangeSetPersister.NotFoundException, ValidationException {
+        validateUser(updateUserRequestDTO);
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        if (userRepository.findByEmail(updateUserRequestDTO.getEmail()).isPresent()
+                && !user.getEmail().equals(updateUserRequestDTO.getEmail())) {
+            throw new ValidationException(Messages.EMAIL_ALREADY_EXISTS);
+        }
+
         userMapper.updateUserFromUserDTO(updateUserRequestDTO, user);
         user.getPhones().forEach(phone -> phone.setUser(user));
         userRepository.save(user);
@@ -60,9 +78,5 @@ public class UserService {
     public void deleteUser(Long id) throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
         userRepository.delete(user);
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
     }
 }

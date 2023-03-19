@@ -5,9 +5,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-import com.pabloescobar.pruebatecnica.dto.UserDTO;
-import com.pabloescobar.pruebatecnica.dto.CreateUpdateUserResponseDTO;
-import com.pabloescobar.pruebatecnica.models.User;
+import com.pabloescobar.pruebatecnica.DTO.user.CreateUpdateUserResponseDTO;
+import com.pabloescobar.pruebatecnica.DTO.user.UserDTO;
+import com.pabloescobar.pruebatecnica.DAO.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

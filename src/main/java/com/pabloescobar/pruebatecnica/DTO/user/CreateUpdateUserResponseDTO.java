@@ -1,4 +1,4 @@
-package com.pabloescobar.pruebatecnica.dto;
+package com.pabloescobar.pruebatecnica.DTO.user;
 
 import java.util.Date;
 

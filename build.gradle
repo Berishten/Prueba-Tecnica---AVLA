@@ -19,7 +19,6 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	// implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -33,14 +32,9 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
 	// JWT
-	// Required: JJWT API
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-
-    // Required: JJWT Implementation
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
-
-    // Required: Jackson JSON Processor for JSON serialization/deserialization
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2' // or 'io.jsonwebtoken:jjwt-gson:0.11.2''
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	// Testinb
 	testImplementation group: 'junit', name: 'junit', version: '4.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
